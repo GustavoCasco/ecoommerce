@@ -2,12 +2,16 @@ package br.com.ecommerce.integration.cascostore.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tbhg_politica_conformidade")
 public class CompliancePolicyEntity {
 
@@ -21,6 +25,7 @@ public class CompliancePolicyEntity {
 
     @Column(name = "indicador_marketing")
     private Boolean marketingIndicator;
+
     @JsonIgnore
     @OneToOne(mappedBy = "compliancePolicyEntity")
     private UserEntity userEntity;
