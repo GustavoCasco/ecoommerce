@@ -1,5 +1,6 @@
 package br.com.ecommerce.integration.cascostore.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class AddresEntity {
     private String city;
     @Column(name = "estado")
     private String state;
-
+    @JsonIgnore
     @OneToOne(mappedBy = "addresEntity")
     private UserEntity userEntity;
 }

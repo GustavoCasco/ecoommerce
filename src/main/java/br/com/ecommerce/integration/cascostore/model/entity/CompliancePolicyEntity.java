@@ -1,5 +1,6 @@
 package br.com.ecommerce.integration.cascostore.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import lombok.Getter;
 public class CompliancePolicyEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_politica")
     private Long idCompliance;
 
@@ -19,7 +21,7 @@ public class CompliancePolicyEntity {
 
     @Column(name = "indicador_marketing")
     private Boolean marketingIndicator;
-
+    @JsonIgnore
     @OneToOne(mappedBy = "compliancePolicyEntity")
     private UserEntity userEntity;
 }
