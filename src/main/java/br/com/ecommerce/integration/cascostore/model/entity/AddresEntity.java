@@ -23,6 +23,10 @@ public class AddresEntity {
     @Column(name = "logradouro")
     private String street;
 
+    @Column(name = "numero_residencial")
+    private String homeNumber;
+
+
     @Column(name = "bairro")
     private String neighborhood;
 
