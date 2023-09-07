@@ -7,12 +7,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
+
 @Getter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "tbhg_politica_conformidade")
+@Builder
 public class CompliancePolicyEntity {
 
     @Id

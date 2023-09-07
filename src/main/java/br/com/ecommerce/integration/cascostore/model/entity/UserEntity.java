@@ -1,33 +1,28 @@
 package br.com.ecommerce.integration.cascostore.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Builder
 @Getter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "tbgh_acesso")
+@Builder
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_usuario")
     private Long idUser;
 
-    @Column(name = "id_usuario")
+    @Column(name = "nome")
     private String name;
 
-    @Column(name = "id_usuario")
+    @Column(name = "numero_documento")
     private Long documentNumber;
 
-    @Column(name = "id_usuario")
+    @Column(name = "idade")
     private Integer age;
 
-    @Column(name = "id_usuario")
+    @Column(name = "celular")
     private Long numberPhone;
 
     @OneToOne
@@ -41,4 +36,5 @@ public class UserEntity {
     @OneToOne
     @JoinColumn(name = "id_politica")
     private CompliancePolicyEntity compliancePolicyEntity;
+
 }

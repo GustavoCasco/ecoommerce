@@ -1,1 +1,8 @@
-
+spring:
+  main:
+    allow-circular-references: true
+  servlet:
+    context-path: /cascostore/*
+  port: 8080
+  banner:
+    banner-mode: classpath:banner.txt

@@ -7,12 +7,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Getter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "tbhg_endereco")
+@Builder
 public class AddresEntity {
 
     @Id
