@@ -1,11 +1,9 @@
-package br.com.ecommerce.integration.cascostore.model.entity;
+package br.com.ecommerce.integration.cascostore.adapters.database.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 
 @Getter
@@ -15,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class CompliancePolicyEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_politica")
     private Long idCompliance;
 

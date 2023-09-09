@@ -1,15 +1,15 @@
-package br.com.ecommerce.integration.cascostore.model.entity;
+package br.com.ecommerce.integration.cascostore.adapters.database.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
 @Entity
-@Table(name = "tbgh_acesso")
+@Table(name = "tbhg_usuario")
 @Builder
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
     private Long idUser;
 
@@ -25,15 +25,15 @@ public class UserEntity {
     @Column(name = "celular")
     private Long numberPhone;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_acesso")
     private AcessEntity acessEntity;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_endereco")
     private AddresEntity addresEntity;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_politica")
     private CompliancePolicyEntity compliancePolicyEntity;
 

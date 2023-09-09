@@ -1,4 +1,4 @@
-package br.com.ecommerce.integration.cascostore.model.dto;
+package br.com.ecommerce.integration.cascostore.adapters.database.model.dto;
 
 import jakarta.persistence.Column;
 import lombok.*;
@@ -12,7 +12,7 @@ public class UserDto {
     private Long documentNumber;
     private Integer age;
     private Long numberPhone;
-    private Long zipCode;
+    private String zipCode;
     private String homeNumber;
     private String email;
     private String keyword;

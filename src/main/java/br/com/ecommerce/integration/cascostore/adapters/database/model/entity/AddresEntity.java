@@ -1,11 +1,9 @@
-package br.com.ecommerce.integration.cascostore.model.entity;
+package br.com.ecommerce.integration.cascostore.adapters.database.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
@@ -14,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class AddresEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_endereco")
     private Long idAddress;
 
@@ -22,8 +20,7 @@ public class AddresEntity {
     private String street;
 
     @Column(name = "numero_residencial")
-    private String homeNumber;
-
+    private Integer homeNumber;
 
     @Column(name = "bairro")
     private String neighborhood;
