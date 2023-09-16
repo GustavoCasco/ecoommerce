@@ -11,6 +11,8 @@ import br.com.ecommerce.integration.cascostore.adapters.database.model.entity.Co
 import br.com.ecommerce.integration.cascostore.adapters.database.model.entity.UserEntity;
 import br.com.ecommerce.integration.cascostore.adapters.database.AcessService;
 import br.com.ecommerce.integration.cascostore.adapters.database.CompliancePolicyService;
+import br.com.ecommerce.integration.cascostore.adapters.producer.SendMessageProducer;
+import br.com.ecommerce.integration.cascostore.exception.ExistingUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +34,9 @@ public class UserServiceUserCase {
     @Autowired
     private BuscaCepFeign buscaCepFeign;
 
-    public void createUser(UserDto userDto) throws Exception {
+
+
+    public void createUser(UserDto userDto) {
 
         BuscaCepVO address = buscaCepFeign.returnEndereco(userDto.getZipCode());
 
@@ -69,14 +73,14 @@ public class UserServiceUserCase {
                     .build();
 
             userService.save(userEntity);
+            SendMessageProducer sendMessageProducer =  new SendMessageProducer();
+            sendMessageProducer.sendMessageKafka(userDto);
+        }else {
+            throw new ExistingUser("Usuario já existente");
         }
-
-        throw new Exception("Usuario já existente");
-
     }
 
     private Boolean validationCreateAcess(String email) {
-
         return acessService.existsByEmail(email);
     }
 

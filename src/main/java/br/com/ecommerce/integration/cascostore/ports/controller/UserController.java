@@ -1,4 +1,4 @@
-package br.com.ecommerce.integration.cascostore.ports;
+package br.com.ecommerce.integration.cascostore.ports.controller;
 
 import br.com.ecommerce.integration.cascostore.usercase.UserServiceUserCase;
 import br.com.ecommerce.integration.cascostore.adapters.database.model.dto.UserDto;
@@ -18,11 +18,7 @@ public class UserController {
 
     @PostMapping("/create_user")
     public ResponseEntity<Object> createUser (@RequestBody UserDto userDto ){
-        try{
             userCase.createUser(userDto);
             return ResponseEntity.ok("Salvo com sucesso");
-        }catch (Exception e){
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
     }
 }
