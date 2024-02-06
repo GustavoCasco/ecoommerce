@@ -1,17 +1,21 @@
-package br.com.ecommerce.integration.cascostore.adapters.producer;
+package br.com.ecommerce.integration.cascostore.config;
 
 import br.com.ecommerce.integration.cascostore.adapters.database.model.dto.UserDto;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Properties;
 
-public class SendMessageProducer {
+public class SendMessageConfig {
+
+    @Value("${kafka.topic-name}")
+    private String topicName;
 
     private final Producer<String, String> messageProducer;
 
-    public SendMessageProducer(){
+    public SendMessageConfig(){
         messageProducer = criarProducer();
     }
 
@@ -28,7 +32,7 @@ public class SendMessageProducer {
     }
 
     public void sendMessageKafka(UserDto userDto){
-        ProducerRecord<String, String> record =  new ProducerRecord<String, String>("UserEvento",
+        ProducerRecord<String, String> record =  new ProducerRecord<String, String>(topicName,
                 userDto.getDocumentNumber().toString(), userDto.toString());
 
         messageProducer.send(record);

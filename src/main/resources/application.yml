@@ -8,3 +8,6 @@ spring:
 server:
   servlet:
     context-path: /cascostore
+
+kafka:
+  topic-name: UserEvento

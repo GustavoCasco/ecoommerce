@@ -11,7 +11,7 @@ import br.com.ecommerce.integration.cascostore.adapters.database.model.entity.Co
 import br.com.ecommerce.integration.cascostore.adapters.database.model.entity.UserEntity;
 import br.com.ecommerce.integration.cascostore.adapters.database.AcessService;
 import br.com.ecommerce.integration.cascostore.adapters.database.CompliancePolicyService;
-import br.com.ecommerce.integration.cascostore.adapters.producer.SendMessageProducer;
+import br.com.ecommerce.integration.cascostore.config.SendMessageConfig;
 import br.com.ecommerce.integration.cascostore.exception.ExistingUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,50 +34,46 @@ public class UserServiceUserCase {
     @Autowired
     private BuscaCepFeign buscaCepFeign;
 
-
-
     public void createUser(UserDto userDto) {
 
         BuscaCepVO address = buscaCepFeign.returnEndereco(userDto.getZipCode());
 
         var isExisting = validationCreateAcess(userDto.getEmail());
 
-        if (!isExisting) {
-            AcessEntity acessEntity =  AcessEntity.builder()
-                    .email(userDto.getEmail())
-                    .keyword(userDto.getKeyword())
-                    .build();
+        if (isExisting) throw new ExistingUser("Usuario já existente");
 
-            AddresEntity addresEntity =  AddresEntity.builder()
-                    .homeNumber( Integer.parseInt(userDto.getHomeNumber()))
-                    .state(address.getUf())
-                    .city(address.getLocalidade())
-                    .neighborhood(address.getBairro())
-                    .street(address.getLogradouro())
-                    .zipCode(Long.parseLong(userDto.getZipCode())).build();
+        AcessEntity acessEntity =  AcessEntity.builder()
+                .email(userDto.getEmail())
+                .keyword(userDto.getKeyword())
+                .build();
+
+        AddresEntity addresEntity =  AddresEntity.builder()
+                .homeNumber( Integer.parseInt(userDto.getHomeNumber()))
+                .state(address.getUf())
+                .city(address.getLocalidade())
+                .neighborhood(address.getBairro())
+                .street(address.getLogradouro())
+                .zipCode(Long.parseLong(userDto.getZipCode())).build();
 
 
-            CompliancePolicyEntity compliancePolicyEntity =  CompliancePolicyEntity.builder()
-                    .marketingIndicator(userDto.getMarketingIndicator())
-                    .complianceIndicator(userDto.getComplianceIndicator())
-                    .build();
+        CompliancePolicyEntity compliancePolicyEntity =  CompliancePolicyEntity.builder()
+                .marketingIndicator(userDto.getMarketingIndicator())
+                .complianceIndicator(userDto.getComplianceIndicator())
+                .build();
 
-            UserEntity userEntity =  UserEntity.builder()
-                    .name(userDto.getName())
-                    .age(userDto.getAge())
-                    .numberPhone(userDto.getNumberPhone())
-                    .documentNumber(userDto.getDocumentNumber())
-                    .acessEntity(acessEntity)
-                    .addresEntity(addresEntity)
-                    .compliancePolicyEntity(compliancePolicyEntity)
-                    .build();
+        UserEntity userEntity =  UserEntity.builder()
+                .name(userDto.getName())
+                .age(userDto.getAge())
+                .numberPhone(userDto.getNumberPhone())
+                .documentNumber(userDto.getDocumentNumber())
+                .acessEntity(acessEntity)
+                .addresEntity(addresEntity)
+                .compliancePolicyEntity(compliancePolicyEntity)
+                .build();
 
-            userService.save(userEntity);
-            SendMessageProducer sendMessageProducer =  new SendMessageProducer();
-            sendMessageProducer.sendMessageKafka(userDto);
-        }else {
-            throw new ExistingUser("Usuario já existente");
-        }
+        userService.save(userEntity);
+        SendMessageConfig sendMessageProducer =  new SendMessageConfig();
+        sendMessageProducer.sendMessageKafka(userDto);
     }
 
     private Boolean validationCreateAcess(String email) {
